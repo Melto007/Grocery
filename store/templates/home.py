@@ -508,20 +508,22 @@
 						<p>
 							Come join the Grocery Shoppy! Let's set up your Account.
 						</p>
-						<form action="#" method="post">
+						<form action="{% url 'register_data' %}" method="post">
+							{% csrf_token %}
 							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="Name" name="Name" required="">
+								<input type="text" placeholder="Name" name="name" required="">
 							</div>
 							<div class="styled-input">
-								<input type="email" placeholder="E-mail" name="Email" required="">
+								<input type="email" placeholder="E-mail" name="email" required="">
 							</div>
 							<div class="styled-input">
 								<input type="password" placeholder="Password" name="password" id="password1" required="">
 							</div>
 							<div class="styled-input">
-								<input type="password" placeholder="Confirm Password" name="Confirm Password" id="password2" required="">
+								<input type="password" placeholder="Confirm Password" name="Confirm_Password" id="password2" required="">
 							</div>
 							<input type="submit" value="Sign Up">
+
 						</form>
 						<p>
 							<a href="#">By clicking register, I agree to your terms</a>
