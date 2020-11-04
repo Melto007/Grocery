@@ -4,6 +4,7 @@ from django.contrib.auth.models import auth,User
 from django.views.generic import TemplateView
 from django.shortcuts import render,redirect
 from django.contrib import messages
+from django.http import HttpResponse
 
 class HomeView(TemplateView):
     templatename = 'home.py'
@@ -27,3 +28,19 @@ class Register_user(CreateView):
                 messages.info(request,'Register Successfully')
                 return redirect('/')
 
+class Login_user(CreateView):
+    def get(self,request):
+        auth.logout(request)
+        return redirect('/')
+
+    def post(self,request):
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = auth.authenticate(request,username=email,password=password)
+        if user is not None:
+            auth.login(request,user)
+            return redirect('/')
+        else:
+            messages.info(request,"Invalid credentials")
+            return redirect('/')

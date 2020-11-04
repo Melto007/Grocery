@@ -36,12 +36,21 @@
 						<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 					</li>
 					<li>
-						<a href="#" data-toggle="modal" data-target="#myModal1">
-							<span class="fa fa-unlock-alt" aria-hidden="true"></span> Sign In </a>
+						{% if user.is_authenticated %}
+							<a href="{% url 'logout_action' %}">
+								<span class="fa fa-unlock-alt" aria-hidden="true"></span> logout </a>
+						{% else %}
+							<a href="#" data-toggle="modal" data-target="#myModal1">
+								<span class="fa fa-unlock-alt" aria-hidden="true"></span> Sign In </a>
+						{% endif %}
 					</li>
 					<li>
-						<a href="#" data-toggle="modal" data-target="#myModal2">
-							<span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a>
+						{% if user.is_authenticated %}
+							
+						{% else %}
+							<a href="#" data-toggle="modal" data-target="#myModal2">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a>
+						{% endif %}
 					</li>
 				</ul>
 				<!-- //header lists -->
@@ -471,15 +480,17 @@
 							<a href="#" data-toggle="modal" data-target="#myModal2">
 								Sign Up Now</a>
 						</p>
-						<form action="#" method="post">
+						<form action="{% url 'login_data' %}" method="post">
+						{% csrf_token %}
 							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="User Name" name="Name" required="">
+								<input type="email" placeholder="Email" name="email" required="">
 							</div>
 							<div class="styled-input">
 								<input type="password" placeholder="Password" name="password" required="">
 							</div>
 							<input type="submit" value="Sign In">
 						</form>
+
 						<div class="clearfix"></div>
 					</div>
 					<div class="clearfix"></div>
@@ -504,7 +515,11 @@
 						<span class="fa fa-envelope-o" aria-hidden="true"></span>
 					</div>
 					<div class="modal_body_left modal_body_left1">
-						<h3 class="agileinfo_sign">Sign Up</h3>
+						{% if user.is_authenticated %}
+
+						{% else %}
+							<h3 class="agileinfo_sign">Sign Up</h3>
+						{% endif %}
 						<p>
 							Come join the Grocery Shoppy! Let's set up your Account.
 						</p>
