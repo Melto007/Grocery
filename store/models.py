@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import auth,User
+from django.utils.safestring import mark_safe
 
 class Categories(models.Model):
     cat_name = models.CharField(max_length=100,null=True,blank=False)
@@ -35,6 +36,11 @@ class Foods(models.Model):
     
     def __str__(self):
         return self.name
+
+    def admin_photo(self):
+        return mark_safe('<img src="{}" width="100" />'.format(self.image.url))
+    admin_photo.short_description = "Image"
+    admin_photo.allow_tags = True
 
 class Add_Cart(models.Model):
     food_id = models.ForeignKey(Foods,null=True,on_delete=models.SET_NULL)
