@@ -480,6 +480,7 @@
 							<a href="#" data-toggle="modal" data-target="#myModal2">
 								Sign Up Now</a>
 						</p>
+
 						<form action="{% url 'login_data' %}" method="post">
 						{% csrf_token %}
 							<div class="styled-input agile-styled-input-top">
@@ -490,7 +491,7 @@
 							</div>
 							<input type="submit" value="Sign In">
 						</form>
-
+						
 						<div class="clearfix"></div>
 					</div>
 					<div class="clearfix"></div>
