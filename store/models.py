@@ -17,6 +17,22 @@ class Cuisine(models.Model):
     def __str__(self):
         return self.cuisine_name
 
+class State(models.Model):
+    cuisine_id = models.ForeignKey(Cuisine,null=True,on_delete=models.SET_NULL)
+    state_name = models.CharField(max_length=100,null=True,blank=True)
+    state = models.IntegerField(blank=True,null=True)
+
+    def __str__(self):
+        return self.state_name
+
+class City(models.Model):
+    state_id = models.ForeignKey(State,null=True,on_delete=models.SET_NULL)
+    city_name = models.CharField(max_length=100,null=True,blank=True)
+    state = models.IntegerField(blank=True,null=True)
+
+    def __str__(self):
+        return self.city_name
+
 class Foods(models.Model):
     STATUS =(
         ('Vegetarian','Vegetarian'),
@@ -41,6 +57,14 @@ class Foods(models.Model):
         return mark_safe('<img src="{}" width="100" />'.format(self.image.url))
     admin_photo.short_description = "Image"
     admin_photo.allow_tags = True
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = 'images/placeholder.png'
+        return url
 
 class Add_Cart(models.Model):
     food_id = models.ForeignKey(Foods,null=True,on_delete=models.SET_NULL)

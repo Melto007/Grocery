@@ -5,11 +5,17 @@ from django.views.generic import TemplateView
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.http import HttpResponse
+from .models import *
 
 class HomeView(TemplateView):
     templatename = 'home.py'
     def get(self,request):
-        return render(request,self.templatename)
+        categories = Categories.objects.all()
+        foods = Foods.objects.filter(category_id=1).order_by('id')[:20]
+        cuisine = Cuisine.objects.all()
+        product = Foods.objects.all()
+        context ={'categories':categories,'foods':foods,'cuisine':cuisine,'product':product}
+        return render(request,self.templatename,context)
         
 class Register_user(CreateView):
     def post(self,request):
