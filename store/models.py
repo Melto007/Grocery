@@ -67,11 +67,11 @@ class Foods(models.Model):
         return url
 
 class Add_Cart(models.Model):
-    food_id = models.ForeignKey(Foods,null=True,on_delete=models.SET_NULL)
-    customer_id = models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
+    foods = models.ForeignKey(Foods,null=True,on_delete=models.SET_NULL)
+    user_id = models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
     food_price = models.DecimalField(max_digits=7,decimal_places=2)
-    quantity = models.IntegerField(null=True,blank=True)
-    status = models.IntegerField(null=True,blank=True)
+    quantity = models.IntegerField(null=True)
+    status = models.IntegerField(null=True)
 
 class OrderItem(models.Model):
     STATUS = (
@@ -94,6 +94,7 @@ class Contact(models.Model):
     email = models.CharField(max_length=100,null=True,blank=True)
     subject = models.CharField(max_length=100,null=True,blank=True)
     message = models.TextField()
+    user_id = models.IntegerField()
     status = models.IntegerField(null=True,blank=True)
 
     def __str__(self):

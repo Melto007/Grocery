@@ -316,23 +316,10 @@
 										<span class="item_price">${{ product.price }}</span>
 										<del>${{ product.discount }}</del>
 									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<form action="#" method="post">
-											<fieldset>
-												<input type="hidden" name="cmd" value="_cart" />
-												<input type="hidden" name="add" value="1" />
-												<input type="hidden" name="business" value=" " />
-												<input type="hidden" name="item_name" value="Freedom Sunflower Oil, 1L" />
-												<input type="hidden" name="amount" value="78.00" />
-												<input type="hidden" name="discount_amount" value="1.00" />
-												<input type="hidden" name="currency_code" value="USD" />
-												<input type="hidden" name="return" value=" " />
-												<input type="hidden" name="cancel_return" value=" " />
-												<input type="submit" name="submit" value="Add to cart" class="button" />
-											</fieldset>
-										</form>
-									</div>
+										<input data-userid="{{ user.id }}" data-product="{{ product.id }}" data-action="add" type="submit" name="submit" id="form" value="Add to Cart">
+									<div id="output">
 
+									</div>
 								</div>
 							</div>
 						</div>
@@ -345,6 +332,37 @@
 			<!-- //product right -->
 		</div>
 	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		$('#form').on('click',function(e){
+			e.preventDefault();
+
+			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+			var userid = this.dataset.userid
+			var product = this.dataset.product
+        	var action = this.dataset.action
+			
+			$.ajax({
+				type: 'POST',
+				url : '{% url 'update_item' %}',
+				data : {
+					userid: userid,
+					product: product,
+					action: action,
+					csrfmiddlewaretoken: csrftoken,
+                    dataType: "json",
+				},
+				success:function(data)
+				{
+					 $('#output').html(data.msg) 
+                },
+                failure: function() {
+                    
+                }
+			});
+		});
+	</script>
 	<!-- //top products -->
 	<!-- special offers -->
 	<div class="featured-section" id="projects">

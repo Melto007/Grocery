@@ -10,6 +10,9 @@ urlpatterns = [
    path('register_data',views.Register_user.as_view(),name='register_data'),
    path('login_data',views.Login_user.as_view(),name='login_data'),
    path('logout_action',views.Login_user.as_view(),name='logout_action'),
+   
+   path('update_item/',views.Update_Item.as_view(),name='update_item'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

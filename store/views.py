@@ -6,6 +6,8 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.http import HttpResponse
 from .models import *
+from django.http import JsonResponse
+import json
 
 class HomeView(TemplateView):
     templatename = 'home.py'
@@ -50,3 +52,21 @@ class Login_user(CreateView):
         else:
             messages.info(request,"Invalid credentials")
             return redirect('/')
+
+
+class Update_Item(CreateView):
+    def post(self,request):
+        if request.is_ajax():
+            userid = request.POST.get('userid',None)
+            product = request.POST.get('product',None)
+            action = request.POST.get('action',None)
+
+            user_id = User.objects.get(id=userid)
+            product_id = Foods.objects.get(id=product)
+
+            insert = Add_Cart.objects.create(foods=product_id,user_id=user_id,food_price=20,quantity=1)
+            insert.save()
+            response = {
+                         'msg':'Your form has been submitted successfully' 
+            }
+            return JsonResponse(response) 
