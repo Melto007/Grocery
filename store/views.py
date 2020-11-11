@@ -69,4 +69,4 @@ class Update_Item(CreateView):
             response = {
                          'msg':'Your form has been submitted successfully' 
             }
-            return JsonResponse(response) 
+            return JsonResponse(response,status=200) 

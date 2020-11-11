@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -23,27 +22,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		}
 	</script>
 
-	  <script>
-          var user = '{{request.user}}'
-
-          function getToken(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrftoken = getToken('csrftoken');
-        </script>
-
 	<!--//tags -->
 	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
 	<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
@@ -52,7 +30,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link href="{% static 'css/popuo-box.css' %}" rel="stylesheet" type="text/css" media="all" />
 	<!--//pop-up-box-->
 	<!-- price range -->
-	<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui1.css'% }">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui1.css' %}">
 	<!-- fonts -->
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
 </head>
@@ -857,8 +835,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<script src="{% static 'js/bootstrap.js' %}"></script>
 	<!-- //for bootstrap working -->
 	<!-- //js-files -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
 </body>
 
 </html>

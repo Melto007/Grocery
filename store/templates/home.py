@@ -316,9 +316,9 @@
 										<span class="item_price">${{ product.price }}</span>
 										<del>${{ product.discount }}</del>
 									</div>
-										<input data-userid="{{ user.id }}" data-product="{{ product.id }}" data-action="add" type="submit" name="submit" id="form" value="Add to Cart">
+										<button data-userid="{{ user.id }}" data-product="{{ product.id }}" data-action="add" type="submit" name="submit" id="form" >Add to Cart</button>
 									<div id="output">
-
+										
 									</div>
 								</div>
 							</div>
@@ -335,7 +335,9 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
-		$('#form').on('click',function(e){
+	$(document).ready(function(){
+		$('#form').on('click',function(e)
+		{
 			e.preventDefault();
 
 			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -344,7 +346,7 @@
         	var action = this.dataset.action
 			
 			$.ajax({
-				type: 'POST',
+				type: 'post',
 				url : '{% url 'update_item' %}',
 				data : {
 					userid: userid,
@@ -353,15 +355,16 @@
 					csrfmiddlewaretoken: csrftoken,
                     dataType: "json",
 				},
-				success:function(data)
+				success: function(response)
 				{
-					 $('#output').html(data.msg) 
+					 $('#output').append('<div id="output"><button>Cancel</button></div>') 
                 },
                 failure: function() {
                     
                 }
 			});
 		});
+	});
 	</script>
 	<!-- //top products -->
 	<!-- special offers -->
