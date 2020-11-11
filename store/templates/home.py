@@ -316,10 +316,15 @@
 										<span class="item_price">${{ product.price }}</span>
 										<del>${{ product.discount }}</del>
 									</div>
-										<button data-userid="{{ user.id }}" data-product="{{ product.id }}" data-action="add" type="submit" name="submit" id="form" >Add to Cart</button>
-									<div id="output">
-										
-									</div>
+							
+								<form action='{% url 'update_item' %}' method='POST'>
+									{% csrf_token %}
+									<input type="hidden" name='userid' value='{{ user.id }}'>
+									<input type='hidden' name='product' value='{{ product.id }}'>
+									
+									<button type='submit' class='btn btn-success'>Add to Cart</button>
+								</form>
+
 								</div>
 							</div>
 						</div>
@@ -333,39 +338,6 @@
 		</div>
 	</div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script>
-	$(document).ready(function(){
-		$('#form').on('click',function(e)
-		{
-			e.preventDefault();
-
-			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-			var userid = this.dataset.userid
-			var product = this.dataset.product
-        	var action = this.dataset.action
-			
-			$.ajax({
-				type: 'post',
-				url : '{% url 'update_item' %}',
-				data : {
-					userid: userid,
-					product: product,
-					action: action,
-					csrfmiddlewaretoken: csrftoken,
-                    dataType: "json",
-				},
-				success: function(response)
-				{
-					 $('#output').append('<div id="output"><button>Cancel</button></div>') 
-                },
-                failure: function() {
-                    
-                }
-			});
-		});
-	});
-	</script>
 	<!-- //top products -->
 	<!-- special offers -->
 	<div class="featured-section" id="projects">

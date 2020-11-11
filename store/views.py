@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from .models import *
 from django.http import JsonResponse
 import json
+from django.db.models import Count, F, Value
+from django.db.models.functions import Length, Upper
 
 class HomeView(TemplateView):
     templatename = 'home.py'
@@ -16,7 +18,8 @@ class HomeView(TemplateView):
         foods = Foods.objects.filter(category_id=1).order_by('id')[:20]
         cuisine = Cuisine.objects.all()
         product = Foods.objects.all()
-        context ={'categories':categories,'foods':foods,'cuisine':cuisine,'product':product}
+        add_cart = Add_Cart.objects.all()
+        context ={'categories':categories,'foods':foods,'cuisine':cuisine,'product':product,'add_cart':add_cart}
         return render(request,self.templatename,context)
         
 class Register_user(CreateView):
@@ -56,17 +59,18 @@ class Login_user(CreateView):
 
 class Update_Item(CreateView):
     def post(self,request):
-        if request.is_ajax():
-            userid = request.POST.get('userid',None)
-            product = request.POST.get('product',None)
-            action = request.POST.get('action',None)
+        userid = request.POST['userid']
+        product = request.POST['product']
+        
+        user_id = User.objects.get(id=userid)
+        product_id = Foods.objects.get(id=product)
 
-            user_id = User.objects.get(id=userid)
-            product_id = Foods.objects.get(id=product)
-
+        if Add_Cart.objects.filter(foods=product_id,user_id=user_id):
+            Add_Cart.objects.filter(foods=product_id,user_id=user_id).update(quantity=F('quantity')+1)
+            return redirect('/')
+        else:
             insert = Add_Cart.objects.create(foods=product_id,user_id=user_id,food_price=20,quantity=1)
             insert.save()
-            response = {
-                         'msg':'Your form has been submitted successfully' 
-            }
-            return JsonResponse(response,status=200) 
+            return redirect('/')
+        
+
