@@ -3,6 +3,23 @@
 {% block content %}
 <body>
 
+	<style>
+		.pagination a {
+		color: black;
+		float: left;
+		padding: 8px 16px;
+		text-decoration: none;
+		transition: background-color .3s;
+		}
+
+		.pagination a.active {
+		background-color: dodgerblue;
+		color: white;
+		}
+
+		.pagination a:hover:not(.active) {background-color: #ddd;}
+	</style>
+	
 	<!-- banner -->
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
 		<!-- Indicators-->
@@ -122,7 +139,7 @@
 					<h3 class="agileits-sear-head">Discount</h3>
 					<ul>
 						<li>
-							<input type="radio" name="discount" value="20" class="checked" required>
+							<input type="radio" name="discount" value="30" class="checked" required>
 							<span class="span">5% or More</span>
 						</li>
 						<li>
@@ -233,6 +250,7 @@
 
 			<!-- //product left -->
 			<!-- product right -->
+			
 			<div class="agileinfo-ads-display col-md-9">
 				<div class="wrapper">
 				
@@ -252,13 +270,26 @@
 					</div>
 					<!-- //second section (nuts special) -->
 					<!-- third section (oils) -->
-
+			<!--- //Pagination --->
+				<div class="pagination">
+						<a href="#">&laquo;</a>
+					{% for num in product.paginator.page_range %}
+						{% if product.number == num%}
+							<a class="active" href="#"><strong>{{ num }}</strong></a>
+						{% elif num > product.number|add:'-3' and num < product.number|add:'3' %}
+							<a href="?page={{ num }}">{{ num }}</a>
+						{% endif %}
+					{% endfor %}
+					<a href="#">&laquo;</a>
+				</div>
+			<!---// Pagination --->
 					<div class="product-sec1">
-						<h3 class="heading-tittle">Products</h3>
-					
+						<h3 class="heading-tittle">Products</h3>	
+
 					{% if view_product %}
 						{% for view_product in view_product %}
 						<div class="col-md-4 product-men">
+						
 							<div class="men-pro-item simpleCart_shelfItem">
 								<div class="men-thumb-item">
 									<img src="{{ view_product.imageURL }}" width="200px" height="175px" alt="">
@@ -287,6 +318,7 @@
 								</form>
 
 								</div>
+								
 							</div>
 						</div>
 						{% endfor %}

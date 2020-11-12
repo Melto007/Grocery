@@ -10,6 +10,8 @@ from django.http import JsonResponse
 import json
 from django.db.models import Count, F, Value
 from django.db.models.functions import Length, Upper
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 class HomeView(TemplateView):
     templatename = 'home.py'
@@ -17,8 +19,14 @@ class HomeView(TemplateView):
         categories = Categories.objects.all()
         foods = Foods.objects.filter(category_id=1).order_by('id')[:20]
         cuisine = Cuisine.objects.all()
-        product = Foods.objects.all()
+        products = Foods.objects.all()
         add_cart = Add_Cart.objects.all()
+
+        paginator = Paginator(products,1)
+        page = request.GET.get('page')
+        product = paginator.get_page(page)
+
+
         context ={'categories':categories,'foods':foods,'cuisine':cuisine,'product':product,'add_cart':add_cart}
         return render(request,self.templatename,context)
         
@@ -27,7 +35,7 @@ class HomeView(TemplateView):
         discount = request.POST['discount']
         cuisine = request.POST['cuisine']
 
-        view_product = Foods.objects.filter(preference=food,discount=discount,cuisine_id=cuisine)
+        view_product = Foods.objects.filter(preference=food,discount__lte=discount,cuisine_id=cuisine)
 
         categories = Categories.objects.all()
         foods = Foods.objects.filter(category_id=1).order_by('id')[:20]
