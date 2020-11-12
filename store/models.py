@@ -73,6 +73,17 @@ class Add_Cart(models.Model):
     quantity = models.IntegerField(null=True)
     status = models.IntegerField(null=True)
 
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+        
+    @property
+    def get_total(self):
+        total = self.Add_Cart.price * self.quantity
+        return total
+
 class OrderItem(models.Model):
     STATUS = (
         ('Pending','Pending'),

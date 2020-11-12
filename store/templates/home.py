@@ -95,21 +95,23 @@
 						<input type="submit" value=" ">
 					</form>
 				</div>
-			
+
+		<form action='{% url "cat_selection" %}' method='post'>
+			{% csrf_token %}
 				<!-- food preference -->
 				<div class="left-side">
 					<h3 class="agileits-sear-head">Food Preference</h3>
 					<ul>
 						<li>
-							<input type="checkbox" class="checked" value="Vegetarian">
+							<input type="radio" name="food" class="checked" value="Vegetarian" required>
 							<span class="span">Vegetarian</span>
 						</li>
 						<li>
-							<input type="checkbox" class="checked" class="Non-Vegetarian">
+							<input type="radio" name="food" class="checked" class="Non-Vegetarian" required>
 							<span class="span">Non-Vegetarian</span>
 						</li>
 						<li>
-							<input type="checkbox" class="checked" value="Other">
+							<input type="radio" name="food" class="checked" value="Other" required>
 							<span class="span">Other</span>
 						</li>
 					</ul>
@@ -120,27 +122,27 @@
 					<h3 class="agileits-sear-head">Discount</h3>
 					<ul>
 						<li>
-							<input type="checkbox" class="checked">
+							<input type="radio" name="discount" value="20" class="checked" required>
 							<span class="span">5% or More</span>
 						</li>
 						<li>
-							<input type="checkbox" class="checked">
+							<input type="radio"  name="discount" class="checked" required>
 							<span class="span">10% or More</span>
 						</li>
 						<li>
-							<input type="checkbox" class="checked">
+							<input type="radio" name="discount" class="checked" required>
 							<span class="span">20% or More</span>
 						</li>
 						<li>
-							<input type="checkbox" class="checked">
+							<input type="radio" name="discount" class="checked" required>
 							<span class="span">30% or More</span>
 						</li>
 						<li>
-							<input type="checkbox" class="checked">
+							<input type="radio" name="discount" class="checked" required>
 							<span class="span">50% or More</span>
 						</li>
 						<li>
-							<input type="checkbox" class="checked">
+							<input type="radio" name="discount" class="checked" required>
 							<span class="span">60% or More</span>
 						</li>
 					</ul>
@@ -209,7 +211,7 @@
 					<ul>
 						{% for cuisine in cuisine %}
 							<li>
-								<input type="checkbox" class="checked" value={{ cuisine.id }}>
+								<input type="radio" class="checked" name="cuisine" value={{ cuisine.id }} required>
 								<span class="span">{{ cuisine.cuisine_name }}</span>
 							</li>
 						{% endfor %}
@@ -218,60 +220,17 @@
 				<!-- //cuisine -->
 				<!-- deals -->
 				<div class="deal-leftmk left-side">
-					<h3 class="agileits-sear-head">Special Deals</h3>
 					<div class="special-sec1">
-						<div class="col-xs-4 img-deals">
-							<img src="images/d2.jpg" alt="">
-						</div>
-						<div class="col-xs-8 img-deal1">
-							<h3>Lay's Potato Chips</h3>
-							<a href="single.html">$18.00</a>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="special-sec1">
-						<div class="col-xs-4 img-deals">
-							<img src="images/d1.jpg" alt="">
-						</div>
-						<div class="col-xs-8 img-deal1">
-							<h3>Bingo Mad Angles</h3>
-							<a href="single.html">$9.00</a>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="special-sec1">
-						<div class="col-xs-4 img-deals">
-							<img src="images/d4.jpg" alt="">
-						</div>
-						<div class="col-xs-8 img-deal1">
-							<h3>Tata Salt</h3>
-							<a href="single.html">$15.00</a>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="special-sec1">
-						<div class="col-xs-4 img-deals">
-							<img src="images/d5.jpg" alt="">
-						</div>
-						<div class="col-xs-8 img-deal1">
-							<h3>Gujarat Dry Fruit</h3>
-							<a href="single.html">$525.00</a>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="special-sec1">
-						<div class="col-xs-4 img-deals">
-							<img src="images/d3.jpg" alt="">
-						</div>
-						<div class="col-xs-8 img-deal1">
-							<h3>Cadbury Dairy Milk</h3>
-							<a href="single.html">$149.00</a>
+						<div class="col-xs-12 img-deals">
+							<button class='btn btn-primary' type='submit'>Search</button>
 						</div>
 						<div class="clearfix"></div>
 					</div>
 				</div>
 				<!-- //deals -->
 			</div>
+		</form>
+
 			<!-- //product left -->
 			<!-- product right -->
 			<div class="agileinfo-ads-display col-md-9">
@@ -296,6 +255,42 @@
 
 					<div class="product-sec1">
 						<h3 class="heading-tittle">Products</h3>
+					
+					{% if view_product %}
+						{% for view_product in view_product %}
+						<div class="col-md-4 product-men">
+							<div class="men-pro-item simpleCart_shelfItem">
+								<div class="men-thumb-item">
+									<img src="{{ view_product.imageURL }}" width="200px" height="175px" alt="">
+									<div class="men-cart-pro">
+										<div class="inner-men-cart-pro">
+											<a href="" class="link-product-add-cart">Quick View</a>
+										</div>
+									</div>
+									<!--<span class="product-new-top">New</span> -->
+								</div>
+								<div class="item-info-product ">
+									<h4>
+										<a href="">{{ view_product.name }}</a>
+									</h4>
+									<div class="info-product-price">
+										<span class="item_price">${{ view_product.price }}</span>
+										<del>${{ view_product.discount }}</del>
+									</div>
+							
+								<form action='{% url 'update_item' %}' method='POST'>
+									{% csrf_token %}
+									<input type="hidden" name='userid' value='{{ user.id }}'>
+									<input type='hidden' name='product' value='{{ view_product.id }}'>
+									
+									<button type='submit' class='btn btn-success'>Add to Cart</button>
+								</form>
+
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% else %}
 						{% for product in product %}
 						<div class="col-md-4 product-men">
 							<div class="men-pro-item simpleCart_shelfItem">
@@ -329,6 +324,8 @@
 							</div>
 						</div>
 						{% endfor %}
+					{% endif %}
+
 						<div class="clearfix"></div>
 					</div>
 					<!-- //third section (oils) -->

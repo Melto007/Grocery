@@ -57,12 +57,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!-- header lists -->
 				<ul>
 					<li>
-						
-					</li>
-					<li>
-					
-					</li>
-					<li>
 						<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 					</li>
 					<li>

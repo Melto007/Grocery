@@ -22,6 +22,22 @@ class HomeView(TemplateView):
         context ={'categories':categories,'foods':foods,'cuisine':cuisine,'product':product,'add_cart':add_cart}
         return render(request,self.templatename,context)
         
+    def post(self,request):
+        food = request.POST['food']
+        discount = request.POST['discount']
+        cuisine = request.POST['cuisine']
+
+        view_product = Foods.objects.filter(preference=food,discount=discount,cuisine_id=cuisine)
+
+        categories = Categories.objects.all()
+        foods = Foods.objects.filter(category_id=1).order_by('id')[:20]
+        cuisine = Cuisine.objects.all()
+        product = Foods.objects.all()
+        add_cart = Add_Cart.objects.all()
+
+        context = {'view_product':view_product,'categories':categories,'foods':foods,'cuisine':cuisine,'product':product,'add_cart':add_cart}
+        return render(request,self.templatename,context)
+
 class Register_user(CreateView):
     def post(self,request):
         name = request.POST['name']
@@ -73,4 +89,6 @@ class Update_Item(CreateView):
             insert.save()
             return redirect('/')
         
+
+       
 

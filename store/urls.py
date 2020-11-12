@@ -12,6 +12,7 @@ urlpatterns = [
    path('logout_action',views.Login_user.as_view(),name='logout_action'),
    
    path('update_item/',views.Update_Item.as_view(),name='update_item'),
+   path('cat_selection',views.HomeView.as_view(),name='cat_selection'),
 
 ]
 
