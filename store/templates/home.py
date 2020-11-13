@@ -108,19 +108,20 @@
 				<div class="search-hotel">
 					<h3 class="agileits-sear-head">Search Here..</h3>
 					
-					<form action="{% url 'search_data' %}" method="post">
-						<input type="search" placeholder="Product name..." name="search" id="search1" required="">
+					<form action="#" method="post">
+						<input type="search" placeholder="Product name..." name="search" id="search" required="">
 						<input type="submit" value=" " >
 					</form>
 				</div>
 
-			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui-css">
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<link rel="stylesheet" href="/resources/demos/style.css">
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 			<script>
 				$("document").ready(function()
 				{
-					$("#search1").autocomplete({
+					$("#search").autocomplete({
 						source: '{% url "search_details" %}'
 					});
 				});
