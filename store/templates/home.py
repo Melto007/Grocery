@@ -107,11 +107,24 @@
 			<div class="side-bar col-md-3">
 				<div class="search-hotel">
 					<h3 class="agileits-sear-head">Search Here..</h3>
-					<form action="#" method="post">
-						<input type="search" placeholder="Product name..." name="search" required="">
-						<input type="submit" value=" ">
+					
+					<form action="{% url 'search_data' %}" method="post">
+						<input type="search" placeholder="Product name..." name="search" id="search1" required="">
+						<input type="submit" value=" " >
 					</form>
 				</div>
+
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui-css">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			<script>
+				$("document").ready(function()
+				{
+					$("#search1").autocomplete({
+						source: '{% url "search_details" %}'
+					});
+				});
+			</script>
 
 		<form action='{% url "cat_selection" %}' method='post'>
 			{% csrf_token %}
@@ -270,6 +283,7 @@
 					</div>
 					<!-- //second section (nuts special) -->
 					<!-- third section (oils) -->
+					
 			<!--- //Pagination --->
 				<div class="pagination">
 						<a href="#">&laquo;</a>
@@ -277,12 +291,13 @@
 						{% if product.number == num%}
 							<a class="active" href="#"><strong>{{ num }}</strong></a>
 						{% elif num > product.number|add:'-3' and num < product.number|add:'3' %}
-							<a href="?page={{ num }}">{{ num }}</a>
+							<a href="?page={{ num }}" id="data">{{ num }}</a>
 						{% endif %}
 					{% endfor %}
 					<a href="#">&laquo;</a>
 				</div>
 			<!---// Pagination --->
+
 					<div class="product-sec1">
 						<h3 class="heading-tittle">Products</h3>	
 
@@ -357,10 +372,25 @@
 						</div>
 						{% endfor %}
 					{% endif %}
-
+					
 						<div class="clearfix"></div>
 					</div>
-					<!-- //third section (oils) -->
+				<!-- //third section (oils) -->
+
+		<!--- //Pagination --->
+					<div class="pagination">
+							<a href="#">&laquo;</a>
+						{% for num in product.paginator.page_range %}
+							{% if product.number == num%}
+								<a class="active" href="#"><strong>{{ num }}</strong></a>
+							{% elif num > product.number|add:'-3' and num < product.number|add:'3' %}
+								<a href="?page={{ num }}" id="data">{{ num }}</a>
+							{% endif %}
+						{% endfor %}
+						<a href="#">&laquo;</a>
+					</div>
+			<!---// Pagination --->
+			
 				</div>
 			</div>
 			<!-- //product right -->

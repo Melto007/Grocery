@@ -15,6 +15,7 @@ from django.core.paginator import Paginator
 
 class HomeView(TemplateView):
     templatename = 'home.py'
+
     def get(self,request):
         categories = Categories.objects.all()
         foods = Foods.objects.filter(category_id=1).order_by('id')[:20]
@@ -26,7 +27,7 @@ class HomeView(TemplateView):
         page = request.GET.get('page')
         product = paginator.get_page(page)
 
-
+      
         context ={'categories':categories,'foods':foods,'cuisine':cuisine,'product':product,'add_cart':add_cart}
         return render(request,self.templatename,context)
         
@@ -97,6 +98,15 @@ class Update_Item(CreateView):
             insert.save()
             return redirect('/')
         
+class Search_Details(CreateView):
+    def get(self,request):
+        if 'term' in request.GET:
+            qs = Foods.objects.filter(name__istartswith=request.GET.get('term'))
+            names = list()
+            for product in qs:
+                names.append(product.name)
+            return JsonResponse(names,safe=False)
+
 
        
 
